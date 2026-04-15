@@ -8,23 +8,23 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --paper:         #fbf9f4;
-    --surface:       #fffdf8;
-    --ink:           #1f2a37;
-    --muted:         #5d6979;
-    --line:          #d8d3c8;
+    --paper:         #f4f7fb;
+    --surface:       #ffffff;
+    --ink:           #182636;
+    --muted:         #3e556e;
+    --line:          #c9d6e4;
     --accent:        #1f4f8a;
     --accent-soft:   #e8f0fb;
-    --gold:          #8a6a2f;
+    --gold:          #86672d;
 
     --text:          var(--ink);
     --text-muted:    var(--muted);
-    --text-light:    #7a8492;
+    --text-light:    #5f738a;
     --border:        var(--line);
-    --border-light:  #e7e2d8;
+    --border-light:  #deebf7;
     --bg:            var(--paper);
     --bg-surface:    var(--surface);
-    --bg-code:       #f2efe7;
+    --bg-code:       #eff4fa;
     --accent-mid:    var(--accent);
     --accent-light:  var(--accent-soft);
     --success:       #1a4d2e;
@@ -40,15 +40,16 @@
     font-size: 17px;
     line-height: 1.78;
     color: var(--text);
+    overflow-x: hidden;
     background:
-      radial-gradient(circle at 0% 0%, rgba(31, 79, 138, 0.09), transparent 45%),
-      radial-gradient(circle at 100% 100%, rgba(138, 106, 47, 0.08), transparent 45%),
+      radial-gradient(circle at 0% 0%, rgba(31, 79, 138, 0.10), transparent 48%),
+      radial-gradient(circle at 100% 100%, rgba(31, 79, 138, 0.08), transparent 52%),
       repeating-linear-gradient(
         90deg,
-        rgba(31, 79, 138, 0.03) 0,
-        rgba(31, 79, 138, 0.03) 1px,
+        rgba(31, 79, 138, 0.025) 0,
+        rgba(31, 79, 138, 0.025) 1px,
         transparent 1px,
-        transparent 32px
+        transparent 36px
       ),
       var(--bg);
   }
@@ -60,9 +61,20 @@
 
   header {
     border-bottom: 1px solid var(--line);
-    background: linear-gradient(180deg, #f2efe6 0%, rgba(242, 239, 230, 0.6) 100%);
+    background: linear-gradient(180deg, #eaf1fa 0%, #f4f8fd 42%, rgba(244, 248, 253, 0.85) 100%);
     padding: 52px 0 34px;
     margin-bottom: 36px;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+  }
+  .header-inner {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 28px;
   }
   .venue-tag {
     font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -148,7 +160,7 @@
   p { margin-bottom: 15px; max-width: 840px; }
 
   .abstract {
-    background: var(--accent-light);
+    background: #f0f6ff;
     border-left: 3px solid var(--accent);
     padding: 22px 26px;
     margin-bottom: 36px;
@@ -178,7 +190,7 @@
     text-align: center;
   }
   .result-card.good { border-color: var(--success); background: var(--success-bg); }
-  .result-card.warn { border-color: var(--warn);    background: var(--warn-bg);    }
+  .result-card.warn { border-color: var(--warn); background: var(--warn-bg); }
   .result-card .val {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 24px;
@@ -255,7 +267,7 @@
     overflow-x: auto;
     line-height: 1.65;
     margin: 18px 0;
-    color: #1a1a1a;
+    color: var(--ink);
   }
   code {
     font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
@@ -278,7 +290,7 @@
     line-height: 1.75;
     overflow-x: auto;
     white-space: pre;
-    color: #1a1a1a;
+    color: var(--ink);
     margin: 20px 0;
   }
 
@@ -294,6 +306,7 @@
 <div class="page-wrap">
 
 <header>
+  <div class="header-inner">
   <div class="venue-tag">Technical Report &mdash; Self-Supervised Learning &middot; World Models &middot; Video Games</div>
   <h1>CS2-LeWM: Learning a Latent World Model for Counter-Strike&nbsp;2<br>from Unlabelled YouTube Video</h1>
   <div class="authors">Independent research, adapted from LeWorldModel &mdash; Maes, Le Lidec, Scieur, LeCun, Balestriero (2026)</div>
@@ -305,6 +318,7 @@
     <a href="https://github.com/fanXvirat/lewm-cs2">GitHub Repository</a>
     <a href="train.py">train.py</a>
     <a href="cs2_showcase_tests.py">showcase_tests.py</a>
+  </div>
   </div>
 </header>
 

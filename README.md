@@ -2,7 +2,14 @@
 
 Latent world model experiments for Counter-Strike 2, trained from POV gameplay clips using a LeWorldModel-style setup.
 
-Repository: https://github.com/fanXvirat/lewm-cs2
+This repository focuses on learning compact latent dynamics from unlabelled gameplay video and analyzing whether the learned state space supports prediction, retrieval, and planning.
+
+## Highlights
+
+- End-to-end JEPA-style world model training on CS2 POV data.
+- DeltaTok-inspired change-centric prediction using residual latent updates.
+- Latent diagnostics and visual analysis outputs in the assets directory.
+- Static project report in index.html for GitHub Pages style presentation.
 
 ## Project Layout
 
@@ -75,15 +82,28 @@ This project explicitly applies the DeltaTok intuition from arXiv:2604.04913 in 
 
 In short: we keep the LeWorldModel training setup, but make prediction explicitly change-centric in the spirit of DeltaTok.
 
-## Sample Figures
+## Project Structure
 
-![Embedding Health](assets/V2_embedding_health.png)
-![Latent t-SNE](assets/V3_tsne.png)
-![NN Retrieval](assets/V6_nn_retrieval.png)
-![Action Sensitivity](assets/S4_action_sensitivity.png)
-![Prediction Quality](assets/V7_prediction_quality.png)
+- train.py: Main training, decoder, and evaluation pipeline.
+- cs2_showcase_tests.py: Additional diagnostics and visualization routines.
+- index.html: Project report page.
+- assets/: Generated figures used by README and index page.
 
-## Credits
+## Showcase Tests and Why These Results Are Good
+
+The showcase outputs are not just visuals; each one verifies a specific world-model property from the training run.
+
+- Embedding Health (assets/V2_embedding_health.png): all 256 latent dimensions remain active, and the latent distribution tracks the SIGReg Gaussian target. This is strong evidence that representation collapse was avoided.
+- Latent Space Structure (assets/V3_tsne.png and assets/S2_tsne.png): t-SNE projections separate scoped and non-scoped gameplay states without labels, which indicates meaningful semantic organization in latent space.
+- Nearest-Neighbour Retrieval (assets/V6_nn_retrieval.png): latent neighbors are visually and semantically related to the query frame, showing that learned embeddings preserve gameplay-relevant similarity.
+- Decoder Reconstruction (assets/V4_reconstruction.png): decoded frames recover HUD layout, scope circle, and scene geometry from 256-d latents, confirming that latent codes retain useful visual state information.
+- Multi-Step Prediction Quality (assets/V7_prediction_quality.png): cosine similarity stays high across rollout steps, indicating stable forward dynamics prediction and low drift over short horizons.
+- Residual Delta Analysis (assets/delta_analysis.png): predicted latent deltas align with real latent changes, and the model beats the null baseline by focusing on action-driven change.
+- Action Sensitivity and Direction Tests (assets/S4_action_sensitivity.png and assets/S5_direction_showcase.png): pitch and yaw dominate latent movement, and action-conditioned rollouts diverge in consistent directions, which confirms genuine action conditioning rather than static memorization.
+
+Together, these tests show that the model learns a stable latent space, predicts temporal dynamics coherently, and responds to actions in a physically plausible way.
+
+## References
 
 - LeWorldModel paper: https://arxiv.org/abs/2603.19312
 - DeltaTok paper: https://arxiv.org/pdf/2604.04913
