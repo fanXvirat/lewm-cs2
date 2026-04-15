@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CS2-LeWM Research Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #fbf9f4;
+      --surface: #fffdf8;
+      --ink: #1f2a37;
+      --muted: #5d6979;
+      --line: #d8d3c8;
+      --accent: #1f4f8a;
+      --accent-soft: #e8f0fb;
+      --gold: #8a6a2f;
+      --max: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      color: var(--ink);
+      font-family: "Source Sans 3", "Segoe UI", sans-serif;
+      line-height: 1.65;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(31, 79, 138, 0.09), transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(138, 106, 47, 0.08), transparent 45%),
+        repeating-linear-gradient(
+          90deg,
+          rgba(31, 79, 138, 0.03) 0,
+          rgba(31, 79, 138, 0.03) 1px,
+          transparent 1px,
+          transparent 32px
+        ),
+        var(--paper);
+      animation: page-in 0.65s ease-out;
+    }
+
+    @keyframes page-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #f2efe6 0%, rgba(242, 239, 230, 0.6) 100%);
+      padding: 3.7rem 1.2rem 2.8rem;
+    }
+
+    .header-wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .eyebrow {
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Merriweather", Georgia, serif;
+      line-height: 1.25;
+      color: #142033;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      max-width: 22ch;
+    }
+
+    .subtitle {
+      max-width: 70ch;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .repo-link {
+      display: inline-block;
+      margin-top: 0.5rem;
+      text-decoration: none;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      padding: 0.48rem 0.9rem;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .repo-link:hover {
+      transform: translateY(-1px);
+      background: #dce9fb;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      background: rgba(251, 249, 244, 0.9);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      gap: 0.4rem;
+      padding: 0.35rem 0.7rem;
+      overflow-x: auto;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.92rem;
+      white-space: nowrap;
+      padding: 0.42rem 0.68rem;
+      border-radius: 6px;
+    }
+
+    nav a:hover {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 2.5rem 1rem 3.5rem;
+      display: grid;
+      gap: 2.6rem;
+    }
+
+    section {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.45rem 1.2rem;
+      box-shadow: 0 10px 30px rgba(22, 31, 45, 0.05);
+      opacity: 0;
+      transform: translateY(8px);
+      animation: reveal 0.55s ease forwards;
+    }
+
+    section:nth-child(2) { animation-delay: 0.08s; }
+    section:nth-child(3) { animation-delay: 0.16s; }
+    section:nth-child(4) { animation-delay: 0.24s; }
+    section:nth-child(5) { animation-delay: 0.32s; }
+
+    @keyframes reveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      margin-bottom: 0.65rem;
+    }
+
+    p {
+      color: var(--muted);
+      max-width: 80ch;
+      margin-bottom: 0.7rem;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.8rem;
+      background: #fff;
+    }
+
+    .metric .v {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .metric .k {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    figure {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+    }
+
+    figcaption {
+      padding: 0.65rem 0.75rem 0.8rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .code {
+      background: #f2efe7;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.9rem;
+      overflow-x: auto;
+      font-family: Consolas, "Courier New", monospace;
+      color: #213047;
+      font-size: 0.9rem;
+      margin-top: 0.8rem;
+      white-space: pre;
+    }
+
+    ul {
+      margin-left: 1.1rem;
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.2rem 1rem 2.2rem;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding-top: 2.7rem;
+      }
+
+      section {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-wrap">
+      <div class="eyebrow">Counter-Strike 2 World Modeling Study</div>
+      <h1>CS2-LeWM: An End-to-End Latent Dynamics Model from Unlabeled POV Gameplay</h1>
+      <p class="subtitle">
+        A reproducible CS2 adaptation of LeWorldModel trained on 16 YouTube POV clips.
+        This page summarizes architecture, diagnostics, and visual outcomes from the current run.
+      </p>
+      <a class="repo-link" href="https://github.com/fanXvirat/lewm-cs2" target="_blank" rel="noreferrer">Open GitHub Repository</a>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav-wrap">
+      <a href="#overview">Overview</a>
+      <a href="#results">Results</a>
+      <a href="#method">Method</a>
+      <a href="#run">How To Run</a>
+      <a href="#limits">Limitations</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>
+        The model predicts future latent states conditioned on inferred actions, without labels or direct game state access.
+        Representations remain stable under SIGReg and preserve actionable structure for nearest-neighbor retrieval, trajectory rollout,
+        and decoder-based visualization.
+      </p>
+      <div class="metrics">
+        <div class="metric"><div class="v">112.4</div><div class="k">Effective rank / 256</div></div>
+        <div class="metric"><div class="v">0</div><div class="k">Collapsed dimensions</div></div>
+        <div class="metric"><div class="v">0.9675</div><div class="k">Prediction cosine similarity</div></div>
+        <div class="metric"><div class="v">3h</div><div class="k">Total train budget</div></div>
+        <div class="metric"><div class="v">16</div><div class="k">YouTube clips used</div></div>
+        <div class="metric"><div class="v">38.5M</div><div class="k">Model parameters</div></div>
+      </div>
+    </section>
+
+    <section id="results">
+      <h2>Visual Results</h2>
+      <p>Selected outputs from validation and analysis workflows.</p>
+      <div class="gallery">
+        <figure>
+          <img src="assets/V2_embedding_health.png" alt="Embedding health" />
+          <figcaption>Embedding health: no collapsed dimensions and strong effective rank.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/V3_tsne.png" alt="Latent t-SNE" />
+          <figcaption>t-SNE projection showing clustered gameplay semantics in latent space.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/V6_nn_retrieval.png" alt="Nearest neighbor retrieval" />
+          <figcaption>Nearest-neighbor retrieval supports semantically meaningful embeddings.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/S4_action_sensitivity.png" alt="Action sensitivity" />
+          <figcaption>Action sensitivity confirms camera movement drives strongest latent change.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/S5_direction_showcase.png" alt="Direction showcase" />
+          <figcaption>Action-conditioned rollouts diverge consistently by control direction.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/V4_reconstruction.png" alt="Decoder reconstruction" />
+          <figcaption>Decoder reconstructions from latent vectors preserve structure and HUD cues.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/V7_prediction_quality.png" alt="Prediction quality" />
+          <figcaption>Multi-step prediction quality remains high across rollout horizon.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/CEM_planner.png" alt="CEM planner" />
+          <figcaption>CEM planner view: goal-directed action search in latent space.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="method">
+      <h2>Method Snapshot</h2>
+      <p>
+        Pipeline summary: 224x224 frame extraction at 10 fps, pseudo-action estimation from optical flow,
+        ViT encoder with BN projection to latent space, autoregressive predictor with action conditioning,
+        and optional decoder trained with perceptual plus adversarial losses.
+      </p>
+      <div class="code">CS2 video -> frame extraction -> pseudo actions -> latent encoding
+latent sequence + actions -> AR predictor -> z_hat(t+1)
+loss = mse + sigreg + optional predictor sigreg
+decoder training = mse + perceptual + edge + ssim + adversarial</div>
+    </section>
+
+    <section id="run">
+      <h2>How To Run</h2>
+      <p>Core commands for smoke, train, and evaluation stages:</p>
+      <div class="code">python train.py --stage smoke
+python train.py --stage all --budget-hours 3.4
+python train.py --stage eval</div>
+      <p>
+        Full project source and updates live at
+        <a href="https://github.com/fanXvirat/lewm-cs2" target="_blank" rel="noreferrer">github.com/fanXvirat/lewm-cs2</a>.
+      </p>
+    </section>
+
+    <section id="limits">
+      <h2>Current Limitations</h2>
+      <ul>
+        <li>Null-ratio gains are positive but still modest for long-horizon control.</li>
+        <li>Pseudo-actions are heuristic approximations, not direct keyboard and mouse logs.</li>
+        <li>Decoder quality can improve with more epochs and larger capacity.</li>
+        <li>The planner is validated in latent space, not yet connected to live CS2 input execution.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    CS2-LeWM adaptation by fanXvirat. Built on LeWorldModel research.
+  </footer>
+</body>
+</html>
