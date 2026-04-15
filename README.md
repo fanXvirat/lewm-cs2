@@ -64,6 +64,17 @@ python train.py --stage eval
 - `assets/` stores all test and result images used by `index.html` and this README.
 - `index.html` is a light-themed academic project page suitable for GitHub Pages.
 
+## Delta-Token Inspired Usage (DeltaTok)
+
+This project explicitly applies the DeltaTok intuition from arXiv:2604.04913 in the predictor path:
+
+- Instead of directly predicting the full next latent state, the model predicts the latent change.
+- The residual update is implemented as `z_hat = z_t + predictor(z_t, action)`.
+- Training uses a delta-style objective where `delta = z_{t+1} - z_t` and `delta_hat = z_hat - z_t`.
+- This reduces collapse toward the trivial no-change predictor on dense 10 fps gameplay data.
+
+In short: we keep the LeWorldModel training setup, but make prediction explicitly change-centric in the spirit of DeltaTok.
+
 ## Sample Figures
 
 ![Embedding Health](assets/V2_embedding_health.png)
@@ -75,4 +86,5 @@ python train.py --stage eval
 ## Credits
 
 - LeWorldModel paper: https://arxiv.org/abs/2603.19312
+- DeltaTok paper: https://arxiv.org/pdf/2604.04913
 - Original implementation reference: https://github.com/lucas-maes/le-wm

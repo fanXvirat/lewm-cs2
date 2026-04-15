@@ -1,23 +1,4 @@
 #!/usr/bin/env python3
-"""
-CS2 LeWM — Merged Final Version
-════════════════════════════════════════════════════════════════════════════
-Based on lewm_cs2_h100_final.py (your implementation).
-Adds 4 targeted improvements:
-  [PATCH-1] VGG perceptual + PatchGAN decoder (sharp reconstructions)
-  [PATCH-2] decoder_epochs=80 (was 25 — blurry)
-  [PATCH-3] 15 visual evaluation plots
-  [PATCH-4] SIGReg on predictor outputs (small weight, prevents drift)
-
-Your file wins on: aggregate_actions (mathematically correct mouse accumulation),
-DIS optical flow, scope/flash heuristics, ClipStore, budget deadline, null_ratio
-tracking per epoch, clip-level val split, residual predictor, pos embedding.
-
-Run:
-  python train.py --stage all --budget-hours 3.4
-    python train.py --stage smoke
-    python train.py --stage eval
-"""
 
 from __future__ import annotations
 
@@ -285,11 +266,6 @@ def build_pseudo_actions(frames, flow_size):
 
 
 def aggregate_actions(action_array, frame_indices):
-    """
-    Mathematically correct action aggregation across temporal gaps.
-    Mouse (yaw/pitch): SUM (velocity accumulates over skipped frames)
-    Keys (binary): MEAN (proportion of time key was held)
-    """
     seq_len=len(frame_indices)
     out=np.zeros((seq_len,action_array.shape[1]),dtype=np.float32)
     for t in range(seq_len-1):
@@ -498,7 +474,6 @@ def modulate(x,s,sc): return x*(1.+sc)+s
 
 
 class SIGReg(nn.Module):
-    """Epps-Pulley normality statistic. Provable anti-collapse. Paper §3.1 / Appendix A."""
     def __init__(self,knots=17,num_proj=1024):
         super().__init__()
         t=torch.linspace(0,3,knots); dt=3./(knots-1)
